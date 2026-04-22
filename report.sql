@@ -6,6 +6,7 @@
 
 
 -- 2. Mostrar todos los productos disponibles (bea)
+select nombre from productos;
 
 
 -- 3. Mostrar todas las ventas realizadas (diego)
@@ -23,7 +24,9 @@ FROM productos;
 
 
 -- 7. Ventas realizadas el 2026-04-02 (bea)
-
+SELECT *
+FROM ventas
+WHERE fecha = '2026-04-02';
 
 -- 8. Productos ordenados de mayor a menor precio (diego)
 
@@ -43,7 +46,8 @@ ORDER BY id_venta ;
 
 
 -- 12. Total de productos (bea)
-
+SELECT COUNT(*) AS total_productos
+FROM productos;
 
 -- 13. Total de ventas (diego)
 
@@ -62,7 +66,12 @@ SELECT sum(precio) AS total_precio FROM productos;
 
 
 -- 17. Mostrar detalle de ventas con id_venta + nombre producto + cantidad(bea)
-
+    SELECT 
+    dv.id_venta,
+    p.nombre AS producto,
+    dv.cantidad
+    FROM detalle_venta dv
+    JOIN productos p ON dv.id_producto = p.id_producto;
 
 -- 18. Mostrar nombre del cliente + id de venta + fecha  (alexander)
 
@@ -79,6 +88,12 @@ JOIN productos p ON dv.id_producto = p.id_producto;
 
 
 -- 22. Mostrar cuántas veces aparece cada producto en detalle_venta(bea)
+    SELECT 
+    p.nombre AS producto,
+    COUNT(*) AS veces_aparece
+    FROM detalle_venta dv
+    JOIN productos p ON dv.id_producto = p.id_producto
+    GROUP BY p.nombre;
 
 
 -- 23. Mostrar solo los productos que aparecen más de una vez (diego)
