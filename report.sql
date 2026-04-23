@@ -11,7 +11,11 @@ select nombre from productos;
 
 
 -- 3. Mostrar todas las ventas realizadas (diego)
-
+select c.nombre, p.nombre ,dv.cantidad, p.precio, (p.precio * dv.cantidad ) as Total 
+from  ventas v
+join clientes c on v.id_cliente = c.id_cliente
+join detalle_venta dv on dv.id_venta = v.id_venta
+join productos p on p.id_producto = dv.id_producto;
 
 -- 4. Mostrar solo nombre y email de clientes (alexander)
 
@@ -32,6 +36,9 @@ FROM ventas
 WHERE fecha = '2026-04-02';
 
 -- 8. Productos ordenados de mayor a menor precio (diego)
+select nombre, precio 
+from productos
+order by precio desc;
 
 
 -- 9. Clientes ordenados por nombre (alexander)
@@ -54,6 +61,11 @@ SELECT COUNT(*) AS total_productos
 FROM productos;
 
 -- 13. Total de ventas (diego)
+select SUM(p.precio * dv.cantidad ) as total_ventas
+from  ventas v
+left join clientes c on v.id_cliente = c.id_cliente
+left join detalle_venta dv on dv.id_venta = v.id_venta
+left join productos p on p.id_producto = dv.id_producto;
 
 
 -- 14. Precio promedio de productos (alexander)
@@ -91,6 +103,13 @@ FROM detalle_venta dv
 JOIN productos p ON dv.id_producto = p.id_producto;
 
 -- 20. Mostrar cuántas ventas ha realizado cada cliente (diego)
+-- tuve que pedir ayuda a claudio
+select c.nombre, sum(p.precio * dv.cantidad) as TOTAL_VENTA
+from ventas v
+join clientes c on v.id_cliente = c.id_cliente 
+join detalle_venta dv on dv.id_venta = v.id_venta 
+join productos p on p.id_producto = dv.id_producto 
+group by c.id_cliente, c.nombre;
 
 
 -- 21. Mostrar solo los clientes con más de una venta (victor)
@@ -112,6 +131,11 @@ ORDER BY total_ventas;
 
 
 -- 23. Mostrar solo los productos que aparecen más de una vez (diego)
+select p.nombre, count(*) as VECES_VENDIDO
+from detalle_venta dv 
+join productos p on p.id_producto = dv.id_producto 
+group by p.id_producto, p.nombre 
+HAVING COUNT(*) > 1;
 
 
 -- 24. Mostrar las ventas que tienen más de un producto asociado (alexander)
